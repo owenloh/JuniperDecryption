@@ -10,6 +10,7 @@ namespace WinFormsApp1
         public Form1()
         {
             InitializeComponent(GetButton1());
+            Juniper.Decrypt9_setup();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -39,7 +40,7 @@ namespace WinFormsApp1
             new List<int> { 1, 32, 64 }
         };
 
-        private static void Decrypt9_setup()
+        public static void Decrypt9_setup()
         {
             string[] FAMILY = { "QzF3n6/9CAtpu0O", "B1IREhcSyrleKvMW8LXx", "7N-dVbwsY2g4oaJZGUDj", "iHkq.mPf5T" };
 
@@ -64,7 +65,7 @@ namespace WinFormsApp1
         {   // the crypt is of the form $9$ + salt_len_indicator + salt + hash
 
             if (crypt.Substring(0, 3) != "$9$") return "Error: incorrect format"; //making sure the crypt is the correct form/type
-            Decrypt9_setup();
+
 
             string salt_n_hash = crypt.Split(new[] { "$9$" }, StringSplitOptions.None)[1]; //removing $9$
             char salt_len_indicator = salt_n_hash[0]; 
@@ -94,7 +95,7 @@ namespace WinFormsApp1
 
         static int Gap(char c1, char c2)
         {
-            return ((ALPHA_NUM[c2] - ALPHA_NUM[c1]) % NUM_ALPHA.Count) - 1;
+            return ((ALPHA_NUM[c2] - ALPHA_NUM[c1] + NUM_ALPHA.Count) % NUM_ALPHA.Count) - 1;
         }
 
         static char GapDecode(List<int> gaps, List<int> dec)
